@@ -1,0 +1,25 @@
+{
+	"FileVersion": 3,
+	"Version": 6,
+	"VersionName": "0.2",
+	"SemVersion": "0.2.1",
+	"FriendlyName": "Example Mod",
+	"Description": "This is a random example mod.",
+	"Category": "Modding",
+	"CreatedBy": "HansLarsen",
+	"CreatedByURL": "https://ficsit.app/",
+	"DocsURL": "https://docs.ficsit.app/",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Pano360Cam",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault"
+		}
+	]
+}
