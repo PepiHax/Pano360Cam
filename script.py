@@ -9,8 +9,10 @@ from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 import threading
 import time
-
+import os
 import numpy as np
+import webp
+from PIL import Image
 
 face_w = 4096
 
@@ -26,7 +28,6 @@ myImage = cv2.imread(theFile.name)
 myImageRGB = cv2.resize(cv2.cvtColor(myImage, cv2.COLOR_BGR2RGB), (int(
     myImage.shape[1] / 10), int(myImage.shape[0] / 10)))
 
-
 def show_frame():
     fig = Figure(dpi=100)
     fig.add_subplot().imshow(myImageRGB)
@@ -41,23 +42,21 @@ def mainFun():
     p = tk.filedialog.askdirectory()
 
     def image_converter():
-        myImage2 = py360convert.e2c(myImage, face_w=face_w)
+        maps = py360convert.e2c(cv2.cvtColor(myImage, cv2.COLOR_BGR2RGB), face_w=face_w, cube_format='list')
 
-        left = myImage2[face_w:face_w+face_w, 0:0+face_w]
-        front = myImage2[face_w:face_w+face_w, face_w:face_w+face_w]
-        right = myImage2[face_w:face_w+face_w, face_w*2:face_w*2+face_w]
-        back = myImage2[face_w:face_w+face_w, face_w*3:face_w*3+face_w]
-        up = myImage2[0:0+face_w, face_w:face_w+face_w]
-        down = myImage2[face_w*2:face_w*2+face_w, face_w:face_w+face_w]
+        #webp.save_image(Image.fromarray(maps[0]), os.path.realpath(p + "/front.webp"), quality=80, lossless=False)
+        #webp.save_image(Image.fromarray(maps[1]), os.path.realpath(p + "/right.webp"), quality=80, lossless=False)
+        #webp.save_image(Image.fromarray(maps[2]), os.path.realpath(p + "/back.webp"), quality=80, lossless=False)
+        #webp.save_image(Image.fromarray(maps[3]), os.path.realpath(p + "/left.webp"), quality=80, lossless=False)
+        #webp.save_image(Image.fromarray(maps[4]), os.path.realpath(p + "/up.webp"), quality=80, lossless=False)
+        #webp.save_image(Image.fromarray(maps[5]), os.path.realpath(p + "/down.webp"), quality=80, lossless=False)
 
-        cv2.imwrite(p+"/map.png", myImage2)
-
-        cv2.imwrite(p+"/left.png", left)
-        cv2.imwrite(p+"/front.png", front)
-        cv2.imwrite(p+"/right.png", right)
-        cv2.imwrite(p+"/back.png", back)
-        cv2.imwrite(p+"/up.png", up)
-        cv2.imwrite(p+"/down.png", down)
+        cv2.imwrite(os.path.realpath(p + "/front2.webp"), maps[0], [cv2.IMWRITE_WEBP_QUALITY, 80])
+        cv2.imwrite(os.path.realpath(p + "/right.webp"), maps[1], [cv2.IMWRITE_WEBP_QUALITY, 80])
+        cv2.imwrite(os.path.realpath(p + "/back.webp"), maps[2], [cv2.IMWRITE_WEBP_QUALITY, 80])
+        cv2.imwrite(os.path.realpath(p + "/left.webp"), maps[3], [cv2.IMWRITE_WEBP_QUALITY, 80])
+        cv2.imwrite(os.path.realpath(p + "/up.webp"), maps[4], [cv2.IMWRITE_WEBP_QUALITY, 80])
+        cv2.imwrite(os.path.realpath(p + "/down.webp"), maps[5], [cv2.IMWRITE_WEBP_QUALITY, 80])
 
         status_var.set("Done")
 
